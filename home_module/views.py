@@ -1,12 +1,15 @@
 from django.shortcuts import render
+from django.views.generic.base import TemplateView
 
 
-def index_page(request):
-    return render(request, 'home_module/index_page.html')
+class HomeView(TemplateView):
+    template_name = 'home_module/index_page.html'
 
-
-def contact_page(request):
-    return render(request, 'home_module/contact_page.html')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['data'] = 'this is data in home page'
+        context['message'] = 'this is message in home page'
+        return context
 
 
 def site_header_component(request):
