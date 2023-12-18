@@ -1,26 +1,17 @@
-from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
-from .models import Product, ProductCategory
-from django.http import Http404
-from django.db.models import Avg, Min, Max
+from django.views.generic.base import TemplateView
+from django.views.generic import ListView
+
+from .models import Product
 
 
-# Create your views here.
+class ProductListView(ListView):
+    template_name = 'product_module/product_list.html'
+    model = Product
+    context_object_name = 'products'
 
-def product_list(request):
-    products = Product.objects.all().order_by('-price')[:5]
-    print(products)
-    return render(request, 'product_module/product_list.html', {
-        'products': products,
-    })
+    def get_queryset(self):
+        base_query = super(ProductListView, self).get_queryset()
+        data = base_query.filter(is_active=True)
+        return data
 
-
-def product_detail(request, slug):
-    # try:
-    #     product = Product.objects.get(id=product_id)
-    # except:
-    #     raise Http404()
-    product = get_object_or_404(Product, slug=slug)
-    return render(request, 'product_module/product_detail.html', {
-        'product': product
-    })
