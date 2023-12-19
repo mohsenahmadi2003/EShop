@@ -16,7 +16,7 @@
                               method="post">
                             {% csrf_token %}
 
-                            {% comment %}{% for field in contact_form %}
+                            {% for field in form %}
                                 <div class="col-md-12 form-group">
                                     {{ field.label_tag }}
                                     {{ field }}
@@ -24,32 +24,32 @@
                                 </div>
                             {% endfor %}
 
-                            <hr>{% endcomment %}
-
-
-                            <div class="col-md-6 form-group">
-                                {{ contact_form.email.label_tag }}
-                                {{ contact_form.email }}
-                                {{ contact_form.email.errors }}
-                            </div>
-
-                            <div class="col-md-6 form-group">
-                                {{ contact_form.full_name.label_tag }}
-                                {{ contact_form.full_name }}
-                                {{ contact_form.full_name.errors }}
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                {{ contact_form.title.label_tag }}
-                                {{ contact_form.title }}
-                                {{ contact_form.title.errors }}
-                            </div>
-
-                            <div class="col-md-12 form-group">
-                                {{ contact_form.message.label_tag }}
-                                {{ contact_form.message }}
-                                {{ contact_form.message.errors }}
-                            </div>
+                            <hr>
+{##}
+{##}
+{#                            <div class="col-md-6 form-group">#}
+{#                                {{ contact_form.email.label_tag }}#}
+{#                                {{ contact_form.email }}#}
+{#                                {{ contact_form.email.errors }}#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-md-6 form-group">#}
+{#                                {{ contact_form.full_name.label_tag }}#}
+{#                                {{ contact_form.full_name }}#}
+{#                                {{ contact_form.full_name.errors }}#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-md-12 form-group">#}
+{#                                {{ contact_form.title.label_tag }}#}
+{#                                {{ contact_form.title }}#}
+{#                                {{ contact_form.title.errors }}#}
+{#                            </div>#}
+{##}
+{#                            <div class="col-md-12 form-group">#}
+{#                                {{ contact_form.message.label_tag }}#}
+{#                                {{ contact_form.message }}#}
+{#                                {{ contact_form.message.errors }}#}
+{#                            </div>#}
 
                             {% comment %}{{ contact_form }}{% endcomment %}
                             {% comment %}<div class="form-group col-md-6">
