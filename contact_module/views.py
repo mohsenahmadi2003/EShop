@@ -16,3 +16,9 @@ def store_file(file):
     with open('temp/image.jpg', "wb+") as dest:
         for chunk in file.chunks():
             dest.write(chunk)
+
+class CreateProfileView(CreateView):
+    template_name = 'contact_module/create_profile_page.html'
+    model = UserProfile
+    fields = '__all__'
+    success_url = '/contact-us/create-profile'
