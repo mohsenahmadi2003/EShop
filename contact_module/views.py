@@ -22,7 +22,7 @@ class CreateProfileView(CreateView):
     template_name = 'contact_module/create_profile_page.html'
     model = UserProfile
     fields = '__all__'
-    success_url = '/contact-us/create-profile'
+    success_url = '/contact/create-profile'
 
 
 class ProfilesView(ListView):
