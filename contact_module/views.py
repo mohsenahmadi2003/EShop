@@ -1,9 +1,18 @@
-from django.shortcuts import render, redirect
-from django.views import View
+from django.views.generic import ListView
+
 from .forms import ContactUsModelForm
-from django.views.generic.edit import FormView, CreateView
+from django.views.generic.edit import CreateView
+
+from .models import UserProfile
+
 
 class ContactUsView(CreateView):
-    template_name = 'contact_module/contact_us_page.html'
     form_class = ContactUsModelForm
+    template_name = 'contact_module/contact_us_page.html'
     success_url = '/contact-us/'
+
+
+def store_file(file):
+    with open('temp/image.jpg', "wb+") as dest:
+        for chunk in file.chunks():
+            dest.write(chunk)
