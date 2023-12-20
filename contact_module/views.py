@@ -17,8 +17,15 @@ def store_file(file):
         for chunk in file.chunks():
             dest.write(chunk)
 
+
 class CreateProfileView(CreateView):
     template_name = 'contact_module/create_profile_page.html'
     model = UserProfile
     fields = '__all__'
     success_url = '/contact-us/create-profile'
+
+
+class ProfilesView(ListView):
+    model = UserProfile
+    template_name = 'contact_module/profiles_list_page.html'
+    context_object_name = 'profiles'
