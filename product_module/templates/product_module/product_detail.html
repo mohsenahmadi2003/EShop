@@ -8,6 +8,14 @@
     <section>
         <div class="container">
             <div class="row">
+                {% if is_favorite %}
+                    <div class="col-md-12">
+                        <p>
+                            این محصول مورد علاقه من است
+                        </p>
+                    </div>
+
+                {% endif %}
 
                 <div class="col-sm-9 padding-right">
                     <div class="product-details"><!--product-details-->
