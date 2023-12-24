@@ -26,3 +26,11 @@ class RegisterForm(forms.Form):
             validators.MaxLengthValidator(100),
         ]
     )
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        yahoo = 'yahoo'
+        if yahoo in email:
+            raise ValidationError("ایمیل یاهو قابل قبول نیست")
+
+        return email
