@@ -43,3 +43,21 @@ class RegisterForm(forms.Form):
             return confirm_password
 
         raise ValidationError('کلمه عبور و تکرار کلمه عبور مغایرت دارند')
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(
+        label='ایمیل',
+        widget=forms.EmailInput(),
+        validators=[
+            validators.MaxLengthValidator(100),
+            validators.EmailValidator
+        ]
+    )
+    password = forms.CharField(
+        label='کلمه عبور',
+        widget=forms.PasswordInput(),
+        validators=[
+            validators.MaxLengthValidator(100)
+        ]
+    )
