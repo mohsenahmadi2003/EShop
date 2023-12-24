@@ -56,3 +56,20 @@ class LoginView(View):
 
     def post(self, request):
         pass
+
+
+class ActivateAccountView(View):
+    def get(self, request, email_active_code):
+        user: User = User.objects.filter(email_active_code__iexact=email_active_code).first()
+        if user is not None:
+            if not user.is_active:
+                user.is_active = True
+                user.email_active_code = get_random_string(72)
+                user.save()
+                # todo: show success message to user
+                return redirect(reverse('login_page'))
+            else:
+                # todo: show your account was activated message to user
+                pass
+
+        raise Http404
