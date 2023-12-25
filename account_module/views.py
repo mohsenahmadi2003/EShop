@@ -7,7 +7,7 @@ from django.utils.crypto import get_random_string
 from django.http import Http404, HttpRequest
 from django.contrib.auth import login, logout
 
-from account_module.forms import RegisterForm, LoginForm
+from account_module.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
 
 
 class RegisterView(View):
@@ -95,3 +95,10 @@ class LoginView(View):
         }
 
         return render(request, 'account_module/login.html', context)
+
+
+class ForgetPassword(View):
+    def get(self, request: HttpRequest):
+        forget_pass_form = ForgotPasswordForm()
+        context = {'forget_pass_form': forget_pass_form}
+        return render(request, 'account_module/forgot_password.html', context)
