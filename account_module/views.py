@@ -114,3 +114,15 @@ class ForgetPassword(View):
 
         context = {'forget_pass_form': forget_pass_form}
         return render(request, 'account_module/forgot_password.html', context)
+
+
+class ResetPassword(View):
+    def get(self, request: HttpRequest, active_code):
+        user: User = User.objects.filter(email_active_code__iexact=active_code).first()
+        if user is None:
+            return redirect(reverse('login_page'))
+
+        reset_pass_form = ResetPasswordForm()
+
+        context = {'reset_pass_form': reset_pass_form}
+        return render(request, 'account_module/reset_password.html', context)
