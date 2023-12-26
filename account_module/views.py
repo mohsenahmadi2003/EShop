@@ -6,7 +6,7 @@ from .models import User
 from django.utils.crypto import get_random_string
 from django.http import Http404, HttpRequest
 from django.contrib.auth import login, logout
-from utils.email_service import SendMail
+from utils.email_service import EmailSender
 from account_module.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
 
 
@@ -35,9 +35,9 @@ class RegisterView(View):
                     username=user_email)
                 new_user.set_password(user_password)
                 new_user.save()
-                SendMail('فعالسازی حساب کاربری', new_user.email, {'user': new_user}, 'emails/active_account.html')
-                SendMail.send()
-                SendMail.empty()
+                send_mail = EmailSender('فعالسازی حساب کاربری', new_user.email, {'user': new_user}, 'emails/active_account.html')
+                send_mail.send()
+                send_mail.reset()
 
                 return redirect(reverse('login_page'))
 
