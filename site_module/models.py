@@ -19,3 +19,14 @@ class SiteSetting(models.Model):
 
     def __str__(self):
         return self.site_name
+
+
+class FooterLinkBox(models.Model):
+    title = models.CharField(max_length=200, verbose_name='عنوان')
+
+    class Meta:
+        verbose_name = 'دسته بندی لینک های فوتر'
+        verbose_name_plural = 'دسته بندی های لینک های فوتر'
+
+    def __str__(self):
+        return self.title
