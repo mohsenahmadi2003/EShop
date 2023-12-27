@@ -35,7 +35,8 @@ class RegisterView(View):
                     username=user_email)
                 new_user.set_password(user_password)
                 new_user.save()
-                send_mail = EmailSender('فعالسازی حساب کاربری', new_user.email, {'user': new_user}, 'emails/active_account.html')
+                send_mail = EmailSender('فعالسازی حساب کاربری', new_user.email, {'user': new_user},
+                                        'emails/active_account.html')
                 send_mail.send()
                 send_mail.reset()
 
@@ -100,7 +101,7 @@ class LoginView(View):
         return render(request, 'account_module/login.html', context)
 
 
-class ForgetPassword(View):
+class ForgetPasswordView(View):
     def get(self, request: HttpRequest):
         forget_pass_form = ForgotPasswordForm()
         context = {'forget_pass_form': forget_pass_form}
@@ -119,7 +120,7 @@ class ForgetPassword(View):
         return render(request, 'account_module/forgot_password.html', context)
 
 
-class ResetPassword(View):
+class ResetPasswordView(View):
     def get(self, request: HttpRequest, active_code):
         user: User = User.objects.filter(email_active_code__iexact=active_code).first()
         if user is None:
@@ -155,3 +156,10 @@ class ResetPassword(View):
         }
 
         return render(request, 'account_module/reset_password.html', context)
+
+
+class LogoutView(View):
+
+    def get(self, request: HttpRequest):
+        logout(request)
+        return redirect(reverse('login_page'))
