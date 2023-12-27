@@ -38,7 +38,7 @@
 
                 <div class="col-sm-4" style="text-align: left;">
                     <div class="logo">
-                        <a href="index.html"><img src="/static/images/home/logo.png" alt="Logo"
+                        <a href="index.html"><img src="{{ site_setting.site_logo.url }}" alt="Logo"
                                                   style="text-align: center;"/></a>
                     </div>
                 </div>
@@ -46,11 +46,17 @@
                 <div class="col-sm-8 header-middle-menu">
                     <div class="shop-menu pull-right">
                         <ul class="nav navbar-nav">
-                            <li><a href="#"><i class="fa fa-user"></i> حساب کاربـری</a></li>
-                            <li><a href="#"><i class="fa fa-star"></i> لیست علاقه مندی ها</a></li>
-                            <li><a href="login.html"><i class="fa fa-lock"></i> ورود</a></li>
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> سبد خریـد</a></li>
-                            <li><a href="cart.html"><i class="fa fa-shopping-cart"></i> {{ link }}</a></li>
+                            {% if request.user.is_authenticated %}
+                                {% if request.user.is_superuser %}
+                                    <li><a href="/admin"><i class="fa fa-user"></i> پنل ادمین</a></li>
+                                {% endif %}
+                                <li><a href="login.html"><i class="fa fa-shopping-cart"></i> سبد خرید</a></li>
+                                <li><a href="login.html"><i class="fa fa-user"></i> پنل کاربری</a></li>
+                                <li><a href="{% url 'logout_page' %}"><i class="fa fa-sign-out"></i> خروج</a></li>
+                            {% else %}
+                                <li><a href="{% url 'register_page' %}"><i class="fa fa-user-plus"></i> ثبت نام</a></li>
+                                <li><a href="{% url 'login_page' %}"><i class="fa fa-sign-in"></i> ورود</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
