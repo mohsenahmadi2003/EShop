@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.views import View
 from .models import User
@@ -8,6 +7,8 @@ from django.http import Http404, HttpRequest
 from django.contrib.auth import login, logout
 from utils.email_service import EmailSender
 from account_module.forms import RegisterForm, LoginForm, ForgotPasswordForm, ResetPasswordForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 
 class RegisterView(View):
@@ -67,7 +68,9 @@ class ActivateAccountView(View):
 
 
 class LoginView(View):
-    def get(self, request):
+    def get(self, request: HttpRequest):
+        if request.user.is_authenticated:
+            raise Http404()
         login_form = LoginForm()
         context = {
             'login_form': login_form
@@ -161,6 +164,7 @@ class ResetPasswordView(View):
         return render(request, 'account_module/reset_password.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
 class LogoutView(View):
 
     def get(self, request: HttpRequest):
