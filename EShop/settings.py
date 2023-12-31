@@ -22,6 +22,7 @@ INSTALLED_APPS = [
 
     # external apps
     'django_render_partial',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
