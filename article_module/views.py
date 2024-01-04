@@ -23,3 +23,13 @@ class ArticlesListView(ListView):
         if category_name is not None:
             query = query.filter(selected_categories__url_title__iexact=category_name)
         return query
+
+
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = 'article_module/article_detail_page.html'
+
+    def get_queryset(self):
+        query = super(ArticleDetailView, self).get_queryset()
+        query = query.filter(is_active=True)
+        return query
