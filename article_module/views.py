@@ -33,3 +33,12 @@ class ArticleDetailView(DetailView):
         query = super(ArticleDetailView, self).get_queryset()
         query = query.filter(is_active=True)
         return query
+
+
+def article_categories_component(request: HttpRequest):
+    article_main_categories = ArticleCategory.objects.filter(is_active=True, parent_id=None)
+
+    context = {
+        'main_categories': article_main_categories
+    }
+    return render(request, 'article_module/components/article_categories_component.html', context)
