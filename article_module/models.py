@@ -27,7 +27,7 @@ class Article(models.Model):
     is_active = models.BooleanField(default=True, verbose_name='فعال / غیرفعال')
     selected_categories = models.ManyToManyField(ArticleCategory, verbose_name='دسته بندی ها')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='نویسنده', null=True, editable=False)
-    create_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name='تاریخ ایجاد')
+    create_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name='تاریخ ثبت')
 
     def __str__(self):
         return self.title
@@ -41,3 +41,18 @@ class Article(models.Model):
     class Meta:
         verbose_name = 'مقاله'
         verbose_name_plural = 'مقالات'
+
+
+class ArticleComment(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, verbose_name='مقاله')
+    parent = models.ForeignKey('ArticleComment', null=True, blank=True, on_delete=models.CASCADE, verbose_name='والد')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
+    create_date = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ثبت')
+    text = models.TextField(verbose_name='متن نظر')
+
+    def __str__(self):
+        return str(self.user)
+
+    class Meta:
+        verbose_name = 'نظر مقاله'
+        verbose_name_plural = 'نظرات مقاله'
