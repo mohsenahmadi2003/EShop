@@ -88,7 +88,8 @@
                                         <p>
                                             {{ comment.text }}
                                         </p>
-                                        <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
+                                        <a class="btn btn-primary" onclick="fillParentId({{ comment.id }})"><i
+                                                class="fa fa-reply"></i>پاسـخ</a>
                                     </div>
                                 </li>
 
@@ -109,7 +110,6 @@
                                             <p>
                                                 {{ sub_comment.text }}
                                             </p>
-                                            <a class="btn btn-primary" href=""><i class="fa fa-reply"></i>پاسـخ</a>
                                         </div>
                                     </li>
                                 {% endfor %}
@@ -117,18 +117,20 @@
 
                         </ul>
                     </div><!--/Response-area-->
-                    <div class="replay-box">
+                    <div class="replay-box" id="comment_form">
                         {% if request.user.is_authenticated %}
                             <div class="row">
                                 <div class="col-sm-12">
                                     <h2>نظـر خود را بنویسیـد</h2>
                                     <div class="text-area">
+                                        <input type="hidden" id="parent_id" value="">
                                         <div class="blank-arrow">
                                             <label>متن پیام</label>
                                         </div>
                                         <span>*</span>
                                         <textarea name="message" rows="11" id="commentText"></textarea>
-                                        <a class="btn btn-primary" onclick="sendArticleComment()">ارسـال نظـر</a>
+                                        <a class="btn btn-primary" onclick="sendArticleComment({{ article.id }})">ارسـال
+                                            نظـر</a>
                                     </div>
                                 </div>
                             </div>
