@@ -8,7 +8,9 @@
 {% block content %}
     <div class="container">
         <div class="row">
-            {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+            <div class="col-md-4">
+                {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+            </div>
             <div class="col-md-8">
                 <p>this is user dashboard</p>
             </div>
