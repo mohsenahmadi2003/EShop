@@ -32,3 +32,9 @@ function filterProducts() {
     $('#end_price').val(end_price);
     $('#filter_form').submit();
 }
+
+
+function fillPage(page) {
+    $('#page').val(page);
+    $('#filter_form').submit();
+}
