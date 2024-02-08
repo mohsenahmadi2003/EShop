@@ -451,7 +451,7 @@
                         {% render_partial 'product_module.views.product_brands_component' %}
                         <div class="shipping text-center"><!--shipping-->
                             {% for banner in banners %}
-                                <a href="{{ banner.url }}">
+                                <a href="{{ banner.url }}", target="_blank">
                                     <img src="{{ banner.image.url }}" alt="">
                                 </a>
                             {% endfor %}
