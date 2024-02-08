@@ -449,6 +449,15 @@
                     <div class="left-sidebar">
                         {% render_partial 'product_module.views.product_categories_component' %}
                         {% render_partial 'product_module.views.product_brands_component' %}
+                        <div class="shipping text-center"><!--shipping-->
+                            {% for banner in banners %}
+                                <a href="{{ banner.url }}">
+                                    <img src="{{ banner.image.url }}" alt="">
+                                </a>
+                            {% endfor %}
+                            <br>
+                            <br>
+                        </div><!--/shipping-->
                     </div>
                 </div>
 
