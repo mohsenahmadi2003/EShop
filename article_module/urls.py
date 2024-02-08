@@ -8,6 +8,4 @@ urlpatterns = [
                   path('cat/<str:category>', views.ArticlesListView.as_view(), name='articles_by_category_list'),
                   path('<pk>/', views.ArticleDetailView.as_view(), name='articles_detail'),
                   path('add-article-comment', views.add_article_comment, name='add_article_comment'),
-                  path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-                  path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
