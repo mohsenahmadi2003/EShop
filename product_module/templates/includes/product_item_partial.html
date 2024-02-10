@@ -5,7 +5,7 @@
         <div class="single-products">
             <div class="productinfo text-center">
                 {% if product.image %}
-                    {% thumbnail product.image "268x250" quality=90 crop='center' as im %}
+                    {% thumbnail product.image "256x256" quality=90 crop='center' as im %}
                         <img src="{{ im.url }}">
                     {% endthumbnail %}
                 {% else %}

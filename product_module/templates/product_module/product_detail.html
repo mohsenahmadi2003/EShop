@@ -1,5 +1,6 @@
 {% extends 'shared/_layout.html' %}
 {% load render_partial %}
+{% load thumbnail %}
 
 {% block title %}
     {{ product.title }}
@@ -451,8 +452,11 @@
                         {% render_partial 'product_module.views.product_brands_component' %}
                         <div class="shipping text-center"><!--shipping-->
                             {% for banner in banners %}
-                                <a href="{{ banner.url }}", target="_blank">
-                                    <img src="{{ banner.image.url }}" alt="">
+                                <a href="{{ banner.url }}" , target="_blank">
+                                    {% thumbnail banner.image "256x200" quality=90 crop='center' as im %}
+                                        <img src="{{ im.url }}" alt="">
+                                    {% endthumbnail %}
+
                                 </a>
                             {% endfor %}
                             <br>
