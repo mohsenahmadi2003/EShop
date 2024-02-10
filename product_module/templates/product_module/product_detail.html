@@ -1,6 +1,7 @@
 {% extends 'shared/_layout.html' %}
 {% load render_partial %}
 {% load thumbnail %}
+{% load poll_extras %}
 
 {% block title %}
     {{ product.title }}
@@ -22,7 +23,11 @@
                         <div class="col-sm-5">
                             <div class="view-product">
                                 {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="">
+                                    {% thumbnail product.image "256x256" quality=90 crop='center' as im %}
+
+                                        <img src="{{ im.url }}" alt="">
+                                    {% endthumbnail %}
+
                                 {% else %}
                                     <img src="/static/images/product-details/1.jpg" alt="">
                                 {% endif %}
@@ -69,7 +74,7 @@
                                 </div>
                                 <div>
 									<span>
-										<span>قیمت : {{ product.price }} ريال</span>
+										<span>قیمت : {{ product.price | three_digits_currency }} </span>
 									</span>
                                     <span>
 										<form action="{% url 'product-favorite' %}" method="post">
