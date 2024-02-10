@@ -15,7 +15,7 @@
                         <div class="features_items"><!--features_items-->
                             <h2 class="title text-center">محصولات</h2>
                             {% for product in products %}
-                                {% include 'includes/product_item_partial.html' with product=product %}
+                                {% include 'includes/product_item_partial.html' with product=product col_size=4 %}
                             {% endfor %}
                             <div class="clearfix"></div>
                             <ul class="pagination">
@@ -77,7 +77,6 @@
                             {% for banner in banners %}
                                 <a href="{{ banner.url }}" , target="_blank">
                                     {% thumbnail banner.image "256x200" quality=90 crop='center' as im %}
-
                                         <img src="{{ im.url }}" alt="">
                                     {% endthumbnail %}
 
