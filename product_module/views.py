@@ -4,7 +4,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 from site_module.models import SiteBanner
-from .models import Product, ProductCategory, ProductBrand
+from utils.http_service import get_client_ip
+from .models import Product, ProductCategory, ProductBrand, ProductVisit
 
 
 class ProductListView(ListView):
@@ -12,10 +13,9 @@ class ProductListView(ListView):
     model = Product
     context_object_name = 'products'
     ordering = ['-price']
-    paginate_by = 10
+    paginate_by = 7
 
     def get_context_data(self, *, object_list=None, **kwargs):
-        print('context_data')
         context = super(ProductListView, self).get_context_data()
         query = Product.objects.all()
         product: Product = query.order_by('-price').first()
@@ -23,12 +23,10 @@ class ProductListView(ListView):
         context['db_max_price'] = db_max_price
         context['start_price'] = self.request.GET.get('start_price') or 0
         context['end_price'] = self.request.GET.get('end_price') or db_max_price
-        context['banners'] = SiteBanner.objects.filter(is_active=True,
-                                                       position__iexact=SiteBanner.SiteBannerPositions.product_list)
+        context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_list)
         return context
 
     def get_queryset(self):
-        print('query_set')
         query = super(ProductListView, self).get_queryset()
         category_name = self.kwargs.get('cat')
         brand_name = self.kwargs.get('brand')
@@ -59,8 +57,18 @@ class ProductDetailView(DetailView):
         request = self.request
         favorite_product_id = request.session.get("product_favorites")
         context['is_favorite'] = favorite_product_id == str(loaded_product.id)
-        context['banners'] = SiteBanner.objects.filter(is_active=True,
-                                                       position__iexact=SiteBanner.SiteBannerPositions.product_detail)
+        context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_detail)
+        user_ip = get_client_ip(self.request)
+        user_id = None
+        if self.request.user.is_authenticated:
+            user_id = self.request.user.id
+
+        has_been_visited = ProductVisit.objects.filter(ip__iexact=user_ip, product_id=loaded_product.id).exists()
+
+        if not has_been_visited:
+            new_visit = ProductVisit(ip=user_ip, user_id=user_id, product_id=loaded_product.id)
+            new_visit.save()
+
         return context
 
 
