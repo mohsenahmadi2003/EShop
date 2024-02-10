@@ -1,6 +1,6 @@
+from django.db.models import Count
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
-
 from product_module.models import Product
 from site_module.models import SiteSetting, FooterLinkBox, Slider
 from utils.convertors import group_list
@@ -14,7 +14,10 @@ class HomeView(TemplateView):
         sliders = Slider.objects.filter(is_active=True)
         context['sliders'] = sliders
         latest_products = Product.objects.filter(is_active=True, is_delete=False).order_by('-id')[:12]
+        most_visit_products = Product.objects.filter(is_active=True, is_delete=False).annotate(
+            visit_count=Count('productvisit')).order_by('-visit_count')[:12]
         context['latest_products'] = group_list(latest_products)
+        context['most_visit_products'] = group_list(most_visit_products)
         return context
 
 
