@@ -5,8 +5,8 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 from site_module.models import SiteBanner
 from utils.http_service import get_client_ip
-from .models import Product, ProductCategory, ProductBrand, ProductVisit
-
+from .models import Product, ProductCategory, ProductBrand, ProductVisit, ProductGallery
+from utils.convertors import group_list
 
 class ProductListView(ListView):
     template_name = 'product_module/product_list.html'
@@ -23,7 +23,8 @@ class ProductListView(ListView):
         context['db_max_price'] = db_max_price
         context['start_price'] = self.request.GET.get('start_price') or 0
         context['end_price'] = self.request.GET.get('end_price') or db_max_price
-        context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_list)
+        context['banners'] = SiteBanner.objects.filter(is_active=True,
+                                                       position__iexact=SiteBanner.SiteBannerPositions.product_list)
         return context
 
     def get_queryset(self):
@@ -57,7 +58,10 @@ class ProductDetailView(DetailView):
         request = self.request
         favorite_product_id = request.session.get("product_favorites")
         context['is_favorite'] = favorite_product_id == str(loaded_product.id)
-        context['banners'] = SiteBanner.objects.filter(is_active=True, position__iexact=SiteBanner.SiteBannerPositions.product_detail)
+        context['banners'] = SiteBanner.objects.filter(is_active=True,
+                                                       position__iexact=SiteBanner.SiteBannerPositions.product_detail)
+        context['product_galleries_group'] = group_list(
+            list(ProductGallery.objects.filter(product_id=loaded_product.id).all()), 3)
         user_ip = get_client_ip(self.request)
         user_id = None
         if self.request.user.is_authenticated:
