@@ -7,7 +7,23 @@
     {{ product.title }}
 {% endblock %}
 
+{% block header_references %}
+    <link href="/static/lib/image-lightbox/css/lightbox.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block footer_references %}
+    <script src="/static/lib/image-lightbox/js/lightbox.min.js"></script>
+    {#    <script src="/static/lib/image-lightbox/js/lightbox-plus-jquery.min.js"></script>#}
+{% endblock %}
+
 {% block content %}
+    <script>
+        // Define the showLargeImage function
+        function showLargeImage(imageSrc) {
+            $('#main_image').attr('src', imageSrc);
+            $('#show_large_image_modal').attr('href', imageSrc);
+        }
+    </script>
     <section>
         <div class="container">
             <div class="row">
@@ -17,14 +33,18 @@
                             <div class="view-product">
                                 {% if product.image %}
                                     {% thumbnail product.image "256x256" quality=90 crop='center' as im %}
-
-                                        <img src="{{ im.url }}" alt="">
+                                        <img src="{{ im.url }}" alt="" id="main_image">
                                     {% endthumbnail %}
 
                                 {% else %}
-                                    <img src="/static/images/product-details/1.jpg" alt="">
+                                    <img src="/static/images/product-details/1.jpg" alt="" id="main_image">
                                 {% endif %}
-                                <h3>بزرگنمایـی</h3>
+                                <h3>
+                                    <a style="color:white" id="show_large_image_modal" href="{{ product.image.url }}"
+                                       data-lightbox="product-image">
+                                        بزرگنمایـی
+                                    </a>
+                                </h3>
                             </div>
                             <div id="similar-product" class="carousel slide" data-ride="carousel">
 
@@ -33,10 +53,9 @@
                                     {% for group in product_galleries_group %}
                                         <div class="item {% if forloop.first %}active{% endif %}">
                                             {% for gallery in group %}
-                                                <a href="">
-                                                    {% thumbnail gallery.image "256x256" quality=90 crop='center' as im %}
-
-                                                        <img src="{{ im.url }}" width="75" height="75"
+                                                <a onclick="showLargeImage('{{ gallery.image.url }}')">
+                                                    {% thumbnail gallery.image "256x256" quality=90 crop='center' as img %}
+                                                        <img src="{{ img.url }}" width="75" height="75"
                                                              alt="">
                                                     {% endthumbnail %}
 
