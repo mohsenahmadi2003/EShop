@@ -18,7 +18,7 @@
                                 {% if product.image %}
                                     {% thumbnail product.image "256x256" quality=90 crop='center' as im %}
 
-                                        <img src="{{ im.url }}" alt="">
+                                        <img src="{{ im.url }}" alt="" id="main_image">
                                     {% endthumbnail %}
 
                                 {% else %}
@@ -35,7 +35,6 @@
                                             {% for gallery in group %}
                                                 <a href="">
                                                     {% thumbnail gallery.image "256x256" quality=90 crop='center' as im %}
-
                                                         <img src="{{ im.url }}" width="75" height="75"
                                                              alt="">
                                                     {% endthumbnail %}
