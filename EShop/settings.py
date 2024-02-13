@@ -18,6 +18,8 @@ SECRET_KEY = env('SECRET_KEY')
 # Retrieve the DEBUG value from environment variables with a default value if not defined
 DEBUG = env('DEBUG')
 
+ALLOWED_HOSTS = ['*']
+
 # Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
