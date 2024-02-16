@@ -33,18 +33,15 @@ function filterProducts() {
     $('#filter_form').submit();
 }
 
-
 function fillPage(page) {
     $('#page').val(page);
     $('#filter_form').submit();
 }
 
-
 function showLargeImage(imageSrc) {
     $('#main_image').attr('src', imageSrc);
     $('#show_large_image_modal').attr('href', imageSrc);
 }
-
 
 function addProductToOrder(productId) {
     const productCount = $('#product-count').val();
@@ -57,12 +54,10 @@ function addProductToOrder(productId) {
             confirmButtonColor: '#3085d6',
             confirmButtonText: res.confirm_button_text
         }).then((result) => {
-            if (result.isConfirmed) {
-                if (res.confirm_button_text === 'ورود به سایت') {
-                    window.location.href = '/login';
-                }
+            if (result.isConfirmed && res.status === 'not_auth') {
+                window.location.href = '/login';
             }
-        })
+        });
     });
 }
 
