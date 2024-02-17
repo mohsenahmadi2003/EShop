@@ -68,3 +68,14 @@ function removeOrderDetail(detailId) {
         }
     });
 }
+
+
+// detail id => order detail id
+// state => increase , decrease
+function changeOrderDetailCount(detailId, state) {
+    $.get('/user/change-order-detail?detail_id=' + detailId + '&state=' + state).then(res => {
+        if (res.status === 'success') {
+            $('#order-detail-content').html(res.body);
+        }
+    });
+}

@@ -102,3 +102,45 @@ def remove_order_detail(request):
         'status': 'success',
         'body': render_to_string('user_panel_module/user_basket_content.html', context)
     })
+
+
+def change_order_detail_count(request: HttpRequest):
+    detail_id = request.GET.get('detail_id')
+    state = request.GET.get('state')
+    if detail_id is None or state is None:
+        return JsonResponse({
+            'status': 'not_found_detail_or_state'
+        })
+
+    order_detail = OrderDetail.objects.filter(id=detail_id, order__user_id=request.user.id, order__is_paid=False).first()
+
+    if order_detail is None:
+        return JsonResponse({
+            'status': 'detail_not_found'
+        })
+
+    if state == 'increase':
+        order_detail.count += 1
+        order_detail.save()
+    elif state == 'decrease':
+        if order_detail.count == 1:
+            order_detail.delete()
+        else:
+            order_detail.count -= 1
+            order_detail.save()
+    else:
+        return JsonResponse({
+            'status': 'state_invalid'
+        })
+
+    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False, user_id=request.user.id)
+    total_amount = current_order.calculate_total_price()
+
+    context = {
+        'order': current_order,
+        'sum': total_amount
+    }
+    return JsonResponse({
+        'status': 'success',
+        'body': render_to_string('user_panel_module/user_basket_content.html', context)
+    })
