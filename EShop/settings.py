@@ -90,6 +90,7 @@ DATABASES = {
 
 # Custom user model
 AUTH_USER_MODEL = 'account_module.User'
+LOGIN_URL = '/login'
 
 # Password validation settings
 AUTH_PASSWORD_VALIDATORS = [
