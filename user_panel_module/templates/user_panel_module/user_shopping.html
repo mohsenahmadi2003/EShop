@@ -1,0 +1,42 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load poll_extras %}
+
+{% block title %}
+    لیست خرید های من
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+            </div>
+            <div class="col-md-8">
+                <table class="table table-responsive table-hover table-striped">
+                    <tr>
+                        <th class="text-right">شناسه</th>
+                        <th class="text-right">تاریخ تایید فاکتور</th>
+                        <th class="text-right">قیمت نهایی خرید</th>
+                        <th class="text-right">دستورات</th>
+                    </tr>
+                    {% for order in object_list %}
+                        <tr>
+                            <td class="text-right">{{ order.id }}</td>
+                            <td class="text-right">
+                                {{ order.payment_date | show_jalali_date }}
+                            </td>
+                            <td class="text-right">
+                                {{ order.calculate_total_price }}
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-success">جزییات</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
