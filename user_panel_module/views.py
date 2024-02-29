@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from account_module.models import User
 from order_module.models import Order, OrderDetail
 from .forms import EditProfileModelForm, ChangePasswordForm
@@ -67,6 +67,18 @@ class ChangePasswordPage(View):
         return render(request, 'user_panel_module/change_password_page.html', context)
 
 
+@method_decorator(login_required, name='dispatch')
+class MyShopping(ListView):
+    model = Order
+    template_name = 'user_panel_module/user_shopping.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        request: HttpRequest = self.request
+        queryset = queryset.filter(user_id=request.user.id, is_paid=True)
+        return queryset
+
+
 @login_required
 def user_panel_menu_component(request: HttpRequest):
     return render(request, 'user_panel_module/components/user_panel_menu_component.html')
@@ -74,8 +86,7 @@ def user_panel_menu_component(request: HttpRequest):
 
 @login_required
 def user_basket(request: HttpRequest):
-    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False,
-                                                                                             user_id=request.user.id)
+    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False, user_id=request.user.id)
     total_amount = current_order.calculate_total_price()
 
     context = {
@@ -93,16 +104,14 @@ def remove_order_detail(request):
             'status': 'not_found_detail_id'
         })
 
-    deleted_count, deleted_dict = OrderDetail.objects.filter(id=detail_id, order__is_paid=False,
-                                                             order__user_id=request.user.id).delete()
+    deleted_count, deleted_dict = OrderDetail.objects.filter(id=detail_id, order__is_paid=False, order__user_id=request.user.id).delete()
 
     if deleted_count == 0:
         return JsonResponse({
             'status': 'detail_not_found'
         })
 
-    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False,
-                                                                                             user_id=request.user.id)
+    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False, user_id=request.user.id)
     total_amount = current_order.calculate_total_price()
 
     context = {
@@ -124,8 +133,7 @@ def change_order_detail_count(request: HttpRequest):
             'status': 'not_found_detail_or_state'
         })
 
-    order_detail = OrderDetail.objects.filter(id=detail_id, order__user_id=request.user.id,
-                                              order__is_paid=False).first()
+    order_detail = OrderDetail.objects.filter(id=detail_id, order__user_id=request.user.id, order__is_paid=False).first()
 
     if order_detail is None:
         return JsonResponse({
@@ -146,8 +154,7 @@ def change_order_detail_count(request: HttpRequest):
             'status': 'state_invalid'
         })
 
-    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False,
-                                                                                             user_id=request.user.id)
+    current_order, created = Order.objects.prefetch_related('orderdetail_set').get_or_create(is_paid=False, user_id=request.user.id)
     total_amount = current_order.calculate_total_price()
 
     context = {
