@@ -1,0 +1,36 @@
+{% extends 'shared/_layout.html' %}
+{% load render_partial %}
+{% load poll_extras %}
+
+{% block title %}
+    جزییات خرید
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                {% render_partial 'user_panel_module.views.user_panel_menu_component' %}
+            </div>
+            <div class="col-md-8">
+                <table class="table table-responsive table-hover table-striped">
+                    <tr>
+                        <th class="text-right">شناسه</th>
+                        <th class="text-right">محصول</th>
+                        <th class="text-right">تعداد</th>
+                        <th class="text-right">قیمت نهایی خرید</th>
+                    </tr>
+                    {% for detail in order.orderdetail_set.all %}
+                        <tr>
+                            <td class="text-right">{{ detail.id }}</td>
+                            <td class="text-right">{{ detail.product.title }}</td>
+                            <td class="text-right">{{ detail.count }}</td>
+                            <td class="text-right">{{ detail.final_price|three_digits_currency }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

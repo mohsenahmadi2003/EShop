@@ -27,10 +27,11 @@
                                 {{ order.payment_date | show_jalali_date }}
                             </td>
                             <td class="text-right">
-                                {{ order.calculate_total_price }}
+                                {{ order.calculate_total_price|three_digits_currency }}
                             </td>
                             <td>
-                                <a href="" class="btn btn-success">جزییات</a>
+                                <a href="{% url 'user_shopping_detail_page' order_id=order.id %}"
+                                   class="btn btn-success">جزییات</a>
                             </td>
                         </tr>
                     {% endfor %}
