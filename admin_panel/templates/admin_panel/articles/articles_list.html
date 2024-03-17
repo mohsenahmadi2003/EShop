@@ -1,0 +1,37 @@
+{% extends 'admin_panel/_admin_layout.html' %}
+
+{% block title %}
+    صفحه اصلی ادمین
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover table-striped">
+                    <tr>
+                        <th>عنوان</th>
+                        <th>وضعیت</th>
+                        <th>دستورات</th>
+                    </tr>
+                    {% for article in object_list %}
+                        <tr>
+                            <td>{{ article.title }}</td>
+                            <td>
+                                {% if article.is_active %}
+                                    <span class="text-success">فعال</span>
+                                {% else %}
+                                    <span class="text-danger">غیرفعال</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="" class="btn btn-warning">ویرایش محصول</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
