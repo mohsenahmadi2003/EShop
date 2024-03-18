@@ -1,0 +1,44 @@
+{% extends 'admin_panel/shared/_admin_layout.html' %}
+{% load widget_tweaks %}
+
+{% block title %}
+    ویرایش مقاله
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="widget">
+                <div class="widget-header bordered-top bordered-warning">
+                    <span class="widget-caption">ویرایش اطلاعات مقاله با عنوان {{ article.title }}</span>
+                </div>
+                <div class="widget-body">
+                    <div class="collapse in">
+                        <form action="{% url 'admin_edit_article' pk=article.id %}" method="post"
+                              enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                                    {% render_field field class='form-control is-invalid' %}
+                                    <div>
+                                        <ul>
+                                            {% for error in field.errors %}
+                                                <li class="text-danger">{{ error }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <button type="submit" class="btn btn-warning btn-block">ویرایش</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
