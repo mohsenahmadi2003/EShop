@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django_render_partial',
     'sorl.thumbnail',
     'jalali_date',
+    'widget_tweaks',
 ]
 
 # Middleware classes
@@ -130,6 +131,8 @@ MEDIA_URL = '/medias/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+STATIC_ROOT = BASE_DIR / 'static_cdn'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
