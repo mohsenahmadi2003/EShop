@@ -1,4 +1,4 @@
-{% extends 'admin_panel/_admin_layout.html' %}
+{% extends 'admin_panel/shared/_admin_layout.html' %}
 
 {% block title %}
     صفحه اصلی ادمین
@@ -25,7 +25,8 @@
                                 {% endif %}
                             </td>
                             <td>
-                                <a href="" class="btn btn-warning">ویرایش محصول</a>
+                                <a href="{% url 'admin_edit_article' pk=article.id %}" class="btn btn-warning">ویرایش
+                                    محصول</a>
                             </td>
                         </tr>
                     {% endfor %}
