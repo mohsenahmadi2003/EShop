@@ -1,9 +1,6 @@
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-
-# Create your views here.
 from django.views.generic import ListView
-
 from article_module.models import Article
 
 
